@@ -57,13 +57,14 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
         return nullptr;
     } else {
         Move *bestMove = new Move(bestMoveX, bestMoveY);
+        //cerr << bestMoveX << " " << bestMoveY << endl;
         board.doMove(bestMove, side);
         return bestMove;
     }
 }
 
 int Player::miniMax(Board *board, Side currSide, int depth) {
-    if (depth == 2) {
+    if (depth == 4) {
       int score = 0;
         for(int i = 0; i < 8; i++) {
           for (int j = 0; j < 8; j++) {
@@ -82,11 +83,13 @@ int Player::miniMax(Board *board, Side currSide, int depth) {
             Move move(i, j);
             if (board->checkMove(&move, currSide)) {
                 Board *newBoard = board->copy();
+                //cerr << move->x << " " << move->y << endl;
                 newBoard->doMove(&move, currSide);
 
                 int tempScore = miniMax(newBoard, (currSide == BLACK) ? WHITE : BLACK, depth + 1);
+
                 if (currSide == oppSide) tempScore *= -1;
-                if (tempScore > bestScore) {
+                if (tempScore > bestScore || abs(tempScore) == 1000) {
                     bestScore = tempScore;
                     if (depth == 0) {
                         bestMoveX = move.x;
