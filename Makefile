@@ -3,7 +3,7 @@ CFLAGS      = -std=c++11 -Wall -pedantic -ggdb
 OBJS        = player.o board.o
 PLAYERNAME  = player
 
-all: $(PLAYERNAME) testgame
+all: $(PLAYERNAME) PoorlyAllocated
 
 $(PLAYERNAME): $(OBJS) wrapper.o
 	$(CC) -o $@ $^

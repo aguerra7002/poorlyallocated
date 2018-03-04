@@ -49,9 +49,11 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
     bestMoveX = -1;
     bestMoveY = -1;
 
-    miniMax(board, side, 0);
+    miniMax(board.copy(), side, 0);
 
     if (bestMoveX == -1 && bestMoveY == -1) {
+        //return nullptr;
+        cerr << "PLAYER PASS" << endl;
         return nullptr;
     } else {
         Move *bestMove = new Move(bestMoveX, bestMoveY);
@@ -62,9 +64,19 @@ Move *Player::doMove(Move *opponentsMove, int msLeft) {
 
 int Player::miniMax(Board *board, Side currSide, int depth) {
     if (depth == 2) {
-        return board->count(side) - board->count(oppSide);
+      int score = 0;
+        for(int i = 0; i < 8; i++) {
+          for (int j = 0; j < 8; j++) {
+            if (board->get(side, i, j)) {
+              score += boardScores[i][j];
+            } else if (board->get(oppSide, i, j)) {
+              score -= boardScores[i][j];
+            }
+          }
+        }
+        return score;
     }
-    int bestScore = -100;
+    int bestScore = -1000;
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
             Move move(i, j);
