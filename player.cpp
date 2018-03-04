@@ -89,6 +89,8 @@ int Player::miniMax(Board *board, Side currSide, int depth) {
     return bestScore;
 }
 
+/* This comment is a small change to commit to test git */
+
 void Player::setBoard(Board *board) {
     this->board = *board;
 }
